@@ -1,43 +1,42 @@
-# 🤖 AI Integration Modules
+# 🤖 AI Integration Patterns
 
-> Extracted AI integration patterns, LLM configurations, and RAG architectures from high-star projects.
+> Production AI patterns for Next.js + OpenAI + Supabase.
 
-## 📦 What's Inside
+## Modules
 
-| Module | Source Project | Type | Best For |
-|--------|---------------|------|----------|
-| OpenAI SDK | *TBD* | Chat + Function Calling | General LLM integration |
-| RAG Pipeline | *TBD* | Retrieval-Augmented Gen | Knowledge-based AI apps |
-| Embedding | *TBD* | Vector embeddings | Semantic search, similarity |
-| Streaming | *TBD* | SSE / WebSocket | Real-time AI responses |
-| Vercel AI SDK | *TBD* | React + AI | Next.js AI apps |
+| Module | What it does | Source | Stars |
+|--------|-------------|--------|-------|
+| [openai-streaming.md](./openai-streaming.md) | Vercel AI SDK streaming, useChat hook, error handling | [Vercel AI SDK](https://github.com/vercel/ai) | 12k |
+| [rag-basic.md](./rag-basic.md) | RAG pipeline: pgvector + OpenAI embeddings + similarity search | [LlamaIndex.TS](https://github.com/run-llama/LlamaIndexTS) + Supabase | 3.5k |
+| [embedding-search.md](./embedding-search.md) | Vector search: embedding generation + hybrid search (semantic + full-text) | Supabase AI Docs + OpenAI Cookbook | — |
 
-## 🎯 Selection Guide
+## Recommended Selection
 
-```
-What kind of AI feature?
-├── Chat interface → OpenAI SDK + Vercel AI SDK (streaming)
-├── Knowledge Q&A → RAG Pipeline (embeddings + vector DB)
-├── Search → Embedding + similarity search
-└── Agent with tools → OpenAI Function Calling / Agents SDK
-```
+⭐ **For a SaaS with AI chat**: Use `openai-streaming.md` — streaming responses with `useChat` hook.
 
-### ⭐ Recommended Default: Vercel AI SDK + OpenAI
+⭐ **For a SaaS with knowledge base**: Use all three:
+1. `rag-basic.md` for the pipeline (ingest → embed → store → search → generate)
+2. `embedding-search.md` for advanced hybrid search
+3. `openai-streaming.md` for the chat UI
 
-**Why**: Best DX for Next.js, built-in streaming, multi-provider support, React hooks.
+## Quick Start
 
-## 📁 Directory Structure
+```bash
+# Install AI dependencies
+npm install ai @ai-sdk/openai openai @supabase/supabase-js
 
-```
-ai-integration/
-├── README.md          ← You are here
-├── openai/            ← OpenAI API patterns + function calling
-├── rag/               ← RAG pipeline patterns
-├── embedding/         ← Embedding generation + vector storage
-├── streaming/         ← Streaming response patterns
-└── agents/            ← Agent integration patterns
+# Set env vars
+OPENAI_API_KEY="sk-..."
+NEXT_PUBLIC_SUPABASE_URL="https://xxx.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="eyJ..."
 ```
 
----
+## Cost Guide
 
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+| Operation | Model | Cost |
+|-----------|-------|------|
+| Embedding | text-embedding-3-small | $0.02 / 1M tokens |
+| Chat | gpt-4o-mini | $0.15 / 1M input, $0.60 / 1M output |
+| Chat | gpt-4o | $2.50 / 1M input, $10 / 1M output |
+
+A typical SaaS with 1000 DAU and moderate AI usage: ~$50-100/month.

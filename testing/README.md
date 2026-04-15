@@ -1,31 +1,38 @@
 # 🧪 Testing Patterns
 
-> Extracted testing strategies, configurations, and patterns from high-star projects.
+> Unit testing with Vitest + E2E testing with Playwright for Next.js applications.
 
-## 📦 What's Inside
+## Modules
 
-| Framework | Type | Best For |
-|-----------|------|----------|
-| Vitest | Unit + Integration | Fast, Vite-compatible, TypeScript-first |
-| Playwright | E2E | Cross-browser, reliable, CI-friendly |
-| Testing Library | Component | React component testing |
+| Module | What it does | Source | Stars |
+|--------|-------------|--------|-------|
+| [vitest-setup.md](./vitest-setup.md) | Vitest config, unit tests, component tests, API route tests | [Vitest](https://github.com/vitest-dev/vitest) | 14k |
+| [playwright-e2e.md](./playwright-e2e.md) | Playwright config, auth flows, landing page tests, fixtures | [Playwright](https://github.com/microsoft/playwright) | 70k |
 
-## 🎯 Selection Guide
+## Testing Strategy
 
-### ⭐ Recommended Default: Vitest + Playwright
+⭐ **Recommended approach for Micro SaaS**:
 
-**Why**: Vitest for unit/integration (fast, modern), Playwright for E2E (reliable, cross-browser). Both work great with Next.js.
+| Layer | Tool | What to test | Time investment |
+|-------|------|-------------|----------------|
+| **Unit** | Vitest | Validation schemas, utility functions, business logic | Low |
+| **Component** | Vitest + RTL | Critical UI components (forms, buttons) | Medium |
+| **E2E** | Playwright | Auth flow, payment flow, core user journey | Medium |
 
-## 📁 Directory Structure
+**Don't over-test**: For a solo dev, focus on tests that catch real bugs:
+1. Auth flow (login/signup/logout)
+2. Payment flow (subscribe/cancel)
+3. Core feature happy path
 
+## Quick Start
+
+```bash
+# Unit tests
+npm install -D vitest @vitejs/plugin-react @testing-library/react @testing-library/jest-dom jsdom
+npm run test
+
+# E2E tests
+npm install -D @playwright/test
+npx playwright install
+npm run test:e2e
 ```
-testing/
-├── README.md          ← You are here
-├── vitest/            ← Vitest config + patterns
-├── playwright/        ← Playwright setup + page objects
-└── strategies/        ← Testing strategies (what to test, what not to)
-```
-
----
-
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
