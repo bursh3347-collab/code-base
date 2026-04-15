@@ -1,44 +1,15 @@
-# ⏰ Scheduling & Cron Patterns
+# ⏰ Scheduling Patterns
 
-> Extracted scheduling patterns, cron job architectures, and task queue designs from high-star projects.
+> Cron jobs and background task scheduling for Next.js.
 
-## 📦 What's Inside
+## Modules
 
-| Pattern | Source | Type | Best For |
-|---------|--------|------|----------|
-| Cron Scheduler | Hermes Agent (86k⭐) | Natural language cron | Scheduled recurring tasks |
-| Vercel Cron | Next.js ecosystem | Serverless cron | Vercel-deployed apps |
-| BullMQ | Node.js | Job queue | Complex task pipelines |
+| Module | What it does | Source |
+|--------|-------------|--------|
+| [cron-patterns.md](./cron-patterns.md) | Vercel Cron vs Inngest vs trigger.dev comparison + code examples | Official docs |
 
-## 🎯 Selection Guide
+## Quick Decision
 
-```
-Hosting on Vercel?
-├── Yes → Vercel Cron Jobs (zero setup, built-in)
-└── No
-    ├── Simple recurring tasks? → node-cron or cron library
-    ├── Complex job pipelines? → BullMQ + Redis
-    └── Natural language scheduling? → Hermes-style cron parser
-```
-
-### ⭐ Recommended Default: Vercel Cron Jobs
-
-**Why**: Zero infrastructure, configured in vercel.json, perfect for Micro SaaS.
-
-## 📁 Directory Structure
-
-```
-scheduling/
-├── README.md          ← You are here
-├── vercel-cron/       ← Vercel Cron Job patterns
-├── cron-parser/       ← Cron expression patterns (from Hermes Agent)
-└── job-queue/         ← BullMQ job queue patterns
-```
-
-## 🏷️ Origin Note
-
-The cron parser pattern was identified during analysis of [NousResearch/hermes-agent](https://github.com/nousresearch/hermes-agent) (86k⭐, MIT). The natural language → cron expression conversion is a cross-domain reusable pattern.
-
----
-
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+- **Simple crons (< 5)**: Use Vercel Cron → zero dependencies
+- **Multi-step workflows**: Use Inngest → step functions with per-step retries
+- **Long-running jobs**: Use trigger.dev → runs outside serverless limits

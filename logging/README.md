@@ -1,36 +1,26 @@
 # 📝 Logging Patterns
 
-> Extracted logging setups, structured logging patterns, and log management from high-star projects.
+> Structured logging for production Next.js applications.
 
-## 📦 What's Inside
+## Modules
 
-| Approach | Type | Best For |
-|----------|------|----------|
-| Structured JSON logs | Production | Machine-parseable, searchable |
-| Pino | Logger library | Fast, low-overhead Node.js logging |
-| Console (dev) | Development | Human-readable during development |
+| Module | What it does | Source | Stars |
+|--------|-------------|--------|-------|
+| [structured-logging.md](./structured-logging.md) | Pino JSON logger, child loggers, request middleware, redaction | [Pino](https://github.com/pinojs/pino) | 14k |
 
-## 🎯 Key Principles
+## Quick Start
 
-1. **Structured over string** — JSON logs are searchable and parseable
-2. **Levels matter** — DEBUG/INFO/WARN/ERROR, configure per environment
-3. **Context enrichment** — Include request ID, user ID, operation name
-4. **Don't log secrets** — Sanitize PII and credentials
-
-### ⭐ Recommended Default: Pino
-
-**Why**: Fastest Node.js logger, structured JSON output, great for serverless.
-
-## 📁 Directory Structure
-
-```
-logging/
-├── README.md          ← You are here
-├── pino/              ← Pino setup + configuration
-├── structured/        ← Structured logging patterns
-└── sanitization/      ← Log sanitization (PII, secrets)
+```bash
+npm install pino
+npm install -D pino-pretty
 ```
 
----
+## Recommended Log Aggregators (Free Tier)
 
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+| Service | Free Tier | Best For |
+|---------|-----------|----------|
+| [Axiom](https://axiom.co) | 500GB/month ingest | Vercel-native integration |
+| [Better Stack (Logtail)](https://betterstack.com) | 1GB/month | Simple setup |
+| [Datadog](https://datadoghq.com) | 5 hosts | Enterprise observability |
+
+⭐ **For Micro SaaS on Vercel**: Use Axiom — native Vercel integration, generous free tier.

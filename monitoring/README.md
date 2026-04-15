@@ -1,32 +1,21 @@
-# 📊 Monitoring & Observability
+# 📊 Monitoring Patterns
 
-> Extracted monitoring setups, alerting patterns, and observability configurations from high-star projects.
+> Health checks and observability for production Next.js applications.
 
-## 📦 What's Inside
+## Modules
 
-| Tool | Type | Best For |
-|------|------|----------|
-| Sentry | Error tracking | Crash reporting, performance |
-| Vercel Analytics | Web vitals | Next.js performance monitoring |
-| PostHog | Product analytics | User behavior, feature flags |
-| Uptime monitors | Availability | SLA tracking |
+| Module | What it does | Source |
+|--------|-------------|--------|
+| [health-check.md](./health-check.md) | Basic + deep health endpoints, dependency checks (DB, OpenAI, Stripe) | 12-Factor App |
 
-## 🎯 Selection Guide
+## Recommended Setup
 
-### ⭐ Recommended Default: Sentry + Vercel Analytics
+⭐ **For Micro SaaS**:
+1. Deploy the basic `/api/health` endpoint
+2. Connect to [Better Uptime](https://betteruptime.com) or [UptimeRobot](https://uptimerobot.com) (free tier)
+3. Add `/api/health/deep` for debugging production issues
 
-**Why**: Sentry catches errors (free tier covers Micro SaaS), Vercel Analytics tracks performance (built-in for Vercel deploys).
-
-## 📁 Directory Structure
-
-```
-monitoring/
-├── README.md          ← You are here
-├── sentry/            ← Sentry setup patterns
-├── analytics/         ← Product analytics patterns
-└── uptime/            ← Uptime monitoring patterns
-```
-
----
-
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+## Future additions
+- Sentry error tracking integration
+- Custom metrics with Vercel Analytics
+- Request logging middleware
