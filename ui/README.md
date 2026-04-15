@@ -1,32 +1,37 @@
-# 🎨 UI Component Patterns
+# 🎨 UI Components & Patterns
 
-> Extracted UI component patterns, design system setups, and styling utilities from high-star projects.
+> Extracted best practices from 100k+ star UI projects for the TypeScript + Next.js + Tailwind stack.
 
-## 📦 What's Inside
+## Modules
 
-| Library/Tool | Source Project | Type | Best For |
-|-------------|---------------|------|----------|
-| Shadcn/ui | *TBD* | Component library | Production-ready, accessible |
-| Tailwind CSS | *TBD* | Utility-first CSS | Rapid UI development |
-| Radix UI | *TBD* | Headless primitives | Custom design systems |
+| Module | What it does | Source | Stars |
+|--------|-------------|--------|-------|
+| [shadcn-patterns.md](./shadcn-patterns.md) | cn() utility, Form integration, theme customization | [shadcn/ui](https://github.com/shadcn-ui/ui) | 112k |
+| [tailwind-utils.md](./tailwind-utils.md) | cn() impl, responsive layouts, dark mode, utility patterns | [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) | 94k |
+| [form-validation.md](./form-validation.md) | Zod schemas, react-hook-form zodResolver, error handling | [Bulletproof React](https://github.com/alan2207/bulletproof-react) | 29k |
 
-## 🎯 Selection Guide
+## Recommended Selection
 
-### ⭐ Recommended Default: Shadcn/ui + Tailwind CSS
+⭐ **If you're starting a new project**, use all three together:
 
-**Why**: Industry standard for Next.js apps. Copy-paste components, fully customizable, accessible by default.
+1. **shadcn/ui** for components (copy-paste, you own them)
+2. **Tailwind + cn()** for styling (utility-first, no CSS files)
+3. **Zod + react-hook-form** for forms (type-safe, single source of truth)
 
-## 📁 Directory Structure
+This is the exact stack used by Vercel's own templates and most top Next.js projects.
 
+## Quick Start
+
+```bash
+# Initialize shadcn/ui (sets up Tailwind + CSS variables)
+npx shadcn-ui@latest init
+
+# Add form components
+npx shadcn-ui@latest add form input button
+
+# Install validation
+npm install zod react-hook-form @hookform/resolvers
+
+# Install dark mode
+npm install next-themes
 ```
-ui/
-├── README.md              ← You are here
-├── shadcn-patterns/       ← Shadcn component compositions
-├── tailwind-utils/        ← Tailwind utility patterns + custom classes
-├── layouts/               ← Page layout patterns (dashboard, landing, etc.)
-└── animations/            ← Animation patterns (Framer Motion, CSS)
-```
-
----
-
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
