@@ -1,8 +1,10 @@
-# 🔧 Code Base — Cross-Domain Reusable Code Patterns
+[English](README.md) | [中文](README_CN.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Last Updated](https://img.shields.io/badge/Updated-2026--04-blue.svg)](#)
-[![Modules](https://img.shields.io/badge/Modules-13-green.svg)](#modules)
+![Stars](https://img.shields.io/github/stars/bursh3347-collab/code-base?style=flat-square)
+![License](https://img.shields.io/github/license/bursh3347-collab/code-base?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/bursh3347-collab/code-base?style=flat-square)
+
+# 🔧 Code Base — Cross-Domain Reusable Code Patterns
 
 > **Extracted best practices and reusable code patterns from 50+ high-star open-source projects worldwide.**
 
@@ -53,11 +55,17 @@ This repository is continuously fed by the **TianGong Intelligence System**:
 
 ## 📊 Related Repositories
 
-| Repository | Description |
-|------------|-------------|
-| [ai-agent-stack](https://github.com/bursh3347-collab/ai-agent-stack) | AI Agent frameworks analysis + extracted patterns |
-| *More coming...* | Category-specific stacks |
+| Category | Repository | Maturity |
+|----------|------------|----------|
+| 🤖 AI Agent | [ai-agent-stack](https://github.com/bursh3347-collab/ai-agent-stack) | L2 Growing |
+| 🏗️ Full-Stack SaaS | [fullstack-saas-stack](https://github.com/bursh3347-collab/fullstack-saas-stack) | L1 Growing |
+| 🎨 Frontend | [frontend-stack](https://github.com/bursh3347-collab/frontend-stack) | L1 Growing |
+| 🔧 Code Base | **code-base** (this) | **L1 Scaffolded** |
 
 ## 📄 License
 
 This repository is MIT licensed. Individual code snippets retain their original licenses as documented in [SOURCES.md](./SOURCES.md).
+
+---
+
+*Powered by the TianGong Intelligence System — AI-driven open source intelligence engine*
