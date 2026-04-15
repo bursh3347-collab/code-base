@@ -1,41 +1,50 @@
-# 🌐 API Design Patterns
+# 🔌 API — API Design Patterns
 
-> Extracted API architectures, middleware patterns, and endpoint designs from high-star projects.
+> Type-safe, validated, and rate-limited API patterns for Next.js 14+ App Router. Production-ready TypeScript.
 
-## 📦 What's Inside
+## Quick Selection Guide
 
-| Approach | Source Project | Complexity | Best For |
-|----------|---------------|------------|----------|
-| REST (Next.js API Routes) | *TBD* | Low | Simple CRUD, most SaaS apps |
-| tRPC | *TBD* | Medium | Full-stack TypeScript, type-safe |
-| GraphQL | *TBD* | High | Complex data graphs, mobile apps |
+| Pattern | Best For | Complexity | Type Safety | Source |
+|---------|----------|------------|-------------|--------|
+| **[tRPC Setup](./trpc-setup.md)** | Full-stack TS apps, internal APIs | Medium | ✅ End-to-end | tRPC 40k⭐ |
+| **[REST Patterns](./rest-patterns.md)** | Public APIs, multi-client | Low | ✅ With Zod | NestJS 70k⭐ |
+| **[Rate Limiting](./rate-limiting.md)** | All APIs (add to either above) | Low | N/A | Hono 30k⭐ |
 
-## 🎯 Selection Guide
+## ⭐ Recommended
 
-```
-Full-stack TypeScript monorepo?
-├── Yes → tRPC (end-to-end type safety, zero boilerplate)
-└── No
-    ├── Complex nested data? → GraphQL
-    ├── Public API needed? → REST (universal compatibility)
-    └── Simple SaaS? → REST with Next.js API Routes
-```
+**If you're building a SaaS with only a web frontend, start with tRPC.**
 
-### ⭐ Recommended Default: REST (Next.js API Routes)
+Reasons:
+- Zero API boilerplate — define a function on the server, call it on the client with full autocomplete
+- Type errors are caught at build time, not runtime
+- Built-in React Query integration for caching and mutations
 
-**Why**: Simplest, most universal, zero additional dependencies. Sufficient for 90% of Micro SaaS use cases.
+**If you need a public API (mobile app, third-party integrations), use REST Patterns.**
 
-## 📁 Directory Structure
+## When to Use What
 
 ```
-api/
-├── README.md          ← You are here
-├── rest/              ← REST API patterns + middleware
-├── trpc/              ← tRPC setup + router patterns
-├── graphql/           ← GraphQL schema + resolver patterns
-└── shared/            ← Cross-approach patterns (rate limiting, validation)
+┌─ Only web frontend (Next.js)? → tRPC
+│
+├─ Need public API / mobile clients? → REST Patterns
+│
+├─ Both? → tRPC for internal + REST for public
+│
+└─ Always add Rate Limiting on top of either
 ```
 
----
+## Combining Patterns
 
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+- **tRPC + Rate Limiting**: Apply rate limit in tRPC middleware
+- **REST + Rate Limiting**: Apply in Next.js middleware or per-route
+- **REST + tRPC**: Use REST for public endpoints, tRPC for dashboard/internal
+
+## Stack Compatibility
+
+| Component | tRPC | REST | Rate Limiting |
+|-----------|------|------|---------------|
+| Next.js App Router | ✅ | ✅ | ✅ |
+| Vercel Edge | ✅ | ✅ | ✅ (Upstash) |
+| React Server Components | ✅ (server caller) | ✅ | N/A |
+| Zod Validation | ✅ (built-in) | ✅ (manual) | N/A |
+| Drizzle ORM | ✅ | ✅ | N/A |

@@ -1,48 +1,59 @@
-# 🔐 Authentication Patterns
+# 🔐 Auth — Authentication Modules
 
-> Extracted authentication implementations from high-star open-source projects.
+> Battle-tested authentication patterns extracted from high-star open-source projects. All code is production-ready TypeScript for Next.js 14+ App Router.
 
-## 📦 What's Inside
+## Quick Selection Guide
 
-| Approach | Source Project | Complexity | Best For |
-|----------|---------------|------------|----------|
-| JWT | *TBD* | Low | API services, stateless auth |
-| OAuth | *TBD* | Medium | Social login (Google, GitHub) |
-| Magic Link | *TBD* | Low | Passwordless login, email-first |
-| Session-based | *TBD* | Medium | Traditional web apps |
+| Pattern | Best For | Complexity | Edge Compatible | Source |
+|---------|----------|------------|-----------------|--------|
+| **[JWT Middleware](./jwt-middleware.md)** | API services, microservices | Low | ✅ Yes | open-saas 14k⭐ |
+| **[OAuth Social Login](./oauth-social-login.md)** | SaaS with Google/GitHub login | Medium | ⚠️ Partial | NextAuth.js 25k⭐ |
+| **[Magic Link](./magic-link.md)** | Passwordless, consumer apps | Low | ✅ Yes | Supabase Auth |
 
-## 🎯 Selection Guide
+## ⭐ Recommended
 
-```
-Do you need social login?
-├── Yes → OAuth (+ JWT for API layer)
-└── No
-    ├── API-only service? → JWT
-    ├── Email-first product? → Magic Link
-    └── Traditional web app? → Session-based
-```
+**If you're not sure which to pick, start with Magic Link (Supabase).**
 
-### ⭐ Recommended Default: JWT
+Reasons:
+- Simplest setup — zero password logic, zero OAuth credential management
+- Supabase handles email delivery, session management, and token refresh
+- Pairs perfectly with Supabase database (RLS policies use `auth.uid()`)
+- Easy to add OAuth providers later via Supabase dashboard
 
-**Why**: Simplest to implement, most flexible, compatible with most SaaS templates. Works great with Next.js + Supabase + Stripe stack.
-
-## 📁 Directory Structure
+## When to Use What
 
 ```
-auth/
-├── README.md          ← You are here
-├── jwt/               ← JWT authentication patterns
-├── oauth/             ← OAuth integration patterns
-├── magic-link/        ← Magic Link login patterns
-└── session/           ← Session-based auth patterns
+┌─ Building an API / microservice? → JWT Middleware
+│
+├─ Need Google/GitHub login? → OAuth Social Login
+│  └─ Already using Supabase? → Use Supabase OAuth instead of NextAuth
+│
+└─ Want passwordless / simplest path? → Magic Link
 ```
 
-## 🔗 Cross-References
+## Combining Patterns
 
-- Database patterns for user tables → [../database/](../database/)
-- API middleware for auth → [../api/](../api/)
-- Error handling for auth failures → [../error-handling/](../error-handling/)
+These patterns are **not mutually exclusive**:
 
----
+- **Magic Link + JWT**: Use Supabase magic link for login, then issue your own JWT for API access
+- **OAuth + JWT**: Use NextAuth for social login, issue JWT for stateless API routes
+- **All three**: Supabase Auth supports magic link + OAuth + password in a single auth provider
 
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+## Stack Compatibility
+
+| Component | JWT | OAuth | Magic Link |
+|-----------|-----|-------|------------|
+| Next.js 14+ App Router | ✅ | ✅ | ✅ |
+| Vercel Edge | ✅ | ⚠️ | ✅ |
+| Supabase | ✅ | ✅ | ✅ (native) |
+| Stripe Integration | Manual | Built-in | Manual |
+| Drizzle ORM | ✅ | ✅ (adapter) | N/A (Supabase manages) |
+
+## Security Checklist
+
+- [ ] JWT secret is ≥ 32 characters
+- [ ] Cookies are `httpOnly`, `secure`, `sameSite: 'lax'`
+- [ ] OAuth redirect URIs are explicitly whitelisted
+- [ ] PKCE flow is used (not implicit grant)
+- [ ] Rate limiting on auth endpoints
+- [ ] Session tokens are rotated on privilege escalation

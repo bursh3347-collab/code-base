@@ -1,46 +1,73 @@
-# 🗄️ Database Best Practices
+# 🗄️ Database — ORM & Data Patterns
 
-> Extracted database patterns, ORM configurations, and schema designs from high-star projects.
+> Production-ready database patterns for SaaS applications. TypeScript-first, serverless-optimized.
 
-## 📦 What's Inside
+## Quick Selection Guide
 
-| ORM/Tool | Source Project | Type | Best For |
-|----------|---------------|------|----------|
-| Drizzle ORM | *TBD* | Type-safe SQL | Lightweight, Next.js projects |
-| Prisma | *TBD* | Full ORM | Rapid prototyping, complex relations |
-| Supabase | *TBD* | BaaS + Postgres | Full-stack with auth + realtime |
-| Raw SQL | *TBD* | Direct queries | Performance-critical paths |
+| Pattern | Best For | Complexity | Edge Compatible | Source |
+|---------|----------|------------|-----------------|--------|
+| **[Drizzle Setup](./drizzle-setup.md)** | New projects, serverless | Medium | ✅ Yes | Drizzle 30k⭐ |
+| **[Supabase Patterns](./supabase-patterns.md)** | Full-stack BaaS, rapid MVP | Low | ✅ Yes | Supabase 78k⭐ |
+| **[Migration Patterns](./migration-patterns.md)** | Choosing/switching ORMs | Reference | N/A | Prisma + Drizzle |
 
-## 🎯 Selection Guide
+## ⭐ Recommended
 
-```
-Project type?
-├── SaaS MVP (speed matters) → Supabase (auth + DB + realtime in one)
-├── Next.js app (type safety) → Drizzle ORM (lighter than Prisma)
-├── Complex data model → Prisma (best migration tooling)
-└── Performance critical → Raw SQL with connection pooling
-```
-
-### ⭐ Recommended Default: Drizzle ORM + Postgres
-
-**Why**: Type-safe, lightweight, great DX with Next.js. Replaces Prisma with less overhead. Used by next-saas-starter (4.2k⭐).
-
-## 📁 Directory Structure
+**For most SaaS projects, use Supabase + Drizzle together.**
 
 ```
-database/
-├── README.md          ← You are here
-├── drizzle/           ← Drizzle ORM patterns + schema examples
-├── prisma/            ← Prisma patterns + migration strategies
-├── supabase/          ← Supabase client patterns + RLS policies
-└── migrations/        ← Migration best practices (cross-ORM)
+Supabase = Hosted Postgres + Auth + Realtime + Storage
+Drizzle  = Type-safe query builder for that Postgres
 ```
 
-## 🔗 Cross-References
+This gives you:
+- Supabase's managed infrastructure (backups, connection pooling, dashboard)
+- Drizzle's type-safe queries and lightweight runtime
+- RLS for multi-tenant data isolation
+- Realtime subscriptions out of the box
 
-- Auth user tables → [../auth/](../auth/)
-- API data fetching → [../api/](../api/)
+## Architecture Decision
 
----
+```
+┌─ Need BaaS (Auth + Storage + Realtime)?
+│  YES → Supabase Patterns (all-in-one)
+│  NO  ↓
+│
+├─ Just need a database + ORM?
+│  → Drizzle Setup (connect to any Postgres)
+│
+└─ Migrating from Prisma?
+   → Migration Patterns (step-by-step guide)
+```
 
-*Status: 🟡 Scaffolded — Patterns will be populated as projects are analyzed.*
+## Stack Compatibility
+
+| Component | Drizzle | Supabase | Prisma |
+|-----------|---------|----------|--------|
+| Vercel Edge | ✅ | ✅ | ⚠️ Accelerate |
+| Connection Pooling | postgres.js | Built-in (PgBouncer) | Prisma Accelerate |
+| Auto Migrations | ✅ drizzle-kit | ✅ SQL migrations | ✅ prisma migrate |
+| Visual Browser | ✅ Drizzle Studio | ✅ Supabase Dashboard | ✅ Prisma Studio |
+| Bundle Size | ~50KB | ~100KB (client) | ~2MB (engine) |
+| RLS Support | Manual SQL | ✅ Native | Manual SQL |
+
+## Connection String Cheatsheet
+
+```env
+# Supabase (use pooler for serverless)
+DATABASE_URL=postgresql://postgres.[ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+
+# Neon (serverless Postgres)
+DATABASE_URL=postgresql://[user]:[password]@[endpoint].neon.tech/[dbname]?sslmode=require
+
+# Local development
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/myapp
+```
+
+## Security Checklist
+
+- [ ] RLS enabled on every table with user data
+- [ ] Service role key is server-side only (never in `NEXT_PUBLIC_*`)
+- [ ] Connection string uses pooler endpoint for serverless
+- [ ] Migrations are version-controlled (never use `push` in production)
+- [ ] Sensitive columns are encrypted at application level if needed
+- [ ] Database backups are configured (Supabase Pro: daily automatic)
